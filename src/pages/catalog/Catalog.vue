@@ -3,6 +3,7 @@
     <h1>Каталог</h1>
     <ProductCard
         v-for="card in productCards"
+        :key="card.id"
         :id="card.id"
         :title="card.title"
         :to="{ name: 'CatalogDetail', params: { id: card.id } }"
