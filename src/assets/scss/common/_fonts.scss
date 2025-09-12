@@ -1,0 +1,15 @@
+@mixin font($alias, $name, $weight) {
+  @font-face {
+    font-family: $alias;
+    src:
+            url('./fonts/' + $name + '.woff') format('woff'),
+            url('./fonts/' + $name + '.woff2') format('woff2');
+    font-weight: $weight;
+    font-style: normal;
+    font-display: swap;
+  }
+}
+
+@include font('Raleway', 'Raleway-Light', 300);
+@include font('Raleway', 'Raleway-ExtraLight', 200);
+@include font('Raleway', 'Raleway-Bold', 700);

@@ -1,0 +1,23 @@
+// colors
+
+$white: #fff;
+$black: #121317;
+
+$default-transition: 0.3s ease-in-out;
+
+// breakpoints
+$bp-xxl: 1900px;
+$bp-xl: 1599px;
+$bp-lg: 1279px;
+$bp-md: 1023px;
+$bp-sm: 767px;
+$bp-xs: 576px;
+$bp-xxs: 479px;
+$bp-3xs: 350px;
+
+// пример
+@media only screen and (max-width: $bp-md) {
+}
+
+// fonts
+$raleway: 'Raleway', system-ui, Avenir, Helvetica, Arial, sans-serif;
