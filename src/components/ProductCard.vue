@@ -14,6 +14,9 @@
 </template>
 
 <script lang="ts" setup>
+export interface ICard {
+
+}
 
 defineProps<{
   to: string;
