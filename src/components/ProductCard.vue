@@ -1,29 +1,30 @@
 <template>
   <div class="product-card">
-    <RouterLink :to="to">
+    <RouterLink :to="String(products.id)">
       <img
-          :src="image"
+          :src="products.photo"
           alt="product"
       >
     </RouterLink>
     <div class="product-card__info">
-      <h2>{{ title }}</h2>
-      <p>{{ price }}</p>
+      <h2>{{ products.name }}</h2>
+      <p>{{ products.price }}</p>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 export interface ICard {
-
+  id: number;
+  name: string;
+  photo: string;
+  price: number;
+  color_id: number;
+  size_id: number;
 }
 
 defineProps<{
-  to: string;
-  id: number;
-  title: string;
-  price: string;
-  image: string;
+  products: ICard;
 }>();
 
 </script>

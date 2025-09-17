@@ -2,13 +2,13 @@
   <div>
     <h1>Каталог</h1>
     <ProductCard
-        v-for="card in productCards"
+        v-for="card in productsStore.items"
         :key="card.id"
-        :id="card.id"
-        :title="card.title"
-        :to="{ name: 'CatalogDetail', params: { id: card.id } }"
-        :price="card.price"
-        :image="card.image"
+        :products="card"
+    />
+    <ProductPagination
+        :products-pagination="productsStore.pagination"
+        @change-page="changePage"
     />
   </div>
 </template>
@@ -16,27 +16,18 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue'
 import ProductCard from "@/components/ProductCard.vue";
-import {useProductStore} from "@/pinia/product.ts";
+import { useProductStore } from "@/pinia/product.ts";
+import ProductPagination from "@/components/ProductPagination.vue";
 
-const productCards = [
-  {
-    id: 1,
-    title: 'Белая куртка',
-    price: 5000,
-    image: '/public/images/catalog-photo.png',
-  },
-  {
-    id: 2,
-    title: 'Белая куртка',
-    price: 5000,
-    image: '/public/images/catalog-photo.png',
-  }
-]
+const productsStore = useProductStore();
 
-const prodictStore = useProductStore();
+async function changePage(nextPage: number) {
+  await productsStore.fetchProducts(nextPage);
+}
 
-onMounted(() => {
-  prodictStore.fetchProducts()
+onMounted(async () => {
+  await productsStore.fetchProducts()
+  console.log('items', productsStore.items)
 })
 </script>
 
