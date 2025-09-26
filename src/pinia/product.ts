@@ -8,11 +8,12 @@ interface IProductState {
   isLoading: boolean;
   isError: boolean;
   pagination: IProductPagination;
+  sizes: IProductSizes["data"];
 }
 
 type IProductItemResponse = paths["/api/products"]["get"]["responses"][200]["content"]["application/json"];
 type IProductItem = IProductItemResponse["data"];
-type IProductPaginationResponce = IProductItemResponse["meta"];
+//type IProductPaginationResponce = IProductItemResponse["meta"];
 type IProductPagination = {
   currentPage: number;
   lastPage: number;
@@ -20,6 +21,7 @@ type IProductPagination = {
   total: number;
 }
 type IProductsItemRequest = paths["/api/products"]["get"]["parameters"]["query"];
+type IProductSizes = paths["/api/sizes"]["get"]["responses"][200]["content"]["application/json"];
 
 export const useProductStore = defineStore('product', {
   state: ():IProductState => {
@@ -27,7 +29,13 @@ export const useProductStore = defineStore('product', {
       items: [],
       isLoading: false,
       isError: false,
-      pagination: {},
+      pagination: {
+        currentPage: 0,
+        lastPage: 0,
+        perPage: 0,
+        total: 0,
+      },
+      sizes: [],
     }
   },
   actions: {
@@ -40,10 +48,10 @@ export const useProductStore = defineStore('product', {
         this.items = responce.data.data;
         const responceMeta = responce.data.meta;
         this.pagination = {
-          currentPage: responceMeta?.current_page,
-          lastPage: responceMeta?.last_page,
-          perPage: responceMeta?.per_page,
-          total: responceMeta?.total,
+          currentPage: Number(responceMeta?.current_page),
+          lastPage: Number(responceMeta?.last_page),
+          perPage: Number(responceMeta?.per_page),
+          total: Number(responceMeta?.total),
         }
       }
       catch (error) {
@@ -52,6 +60,15 @@ export const useProductStore = defineStore('product', {
       }
       finally {
         this.isLoading = false;
+      }
+    },
+
+    async fetchSizes(): Promise<void> {
+      try {
+        const responce: AxiosResponse<IProductSizes> = await axios.get('https://shop-trainy.doorly.ru/api/sizes')
+        this.sizes = responce.data.data;
+      } catch (error) {
+        console.error(error);
       }
     }
   }

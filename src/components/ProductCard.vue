@@ -30,5 +30,7 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-
+.product-card img {
+  width: 100px;
+}
 </style>
