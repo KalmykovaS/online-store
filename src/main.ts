@@ -3,6 +3,7 @@ import App from './App.vue'
 import router from './router'
 import '@/assets/scss/common.scss';
 import { createPinia } from 'pinia'
+import axiosPlugin from "./plugins/axios.ts";
 const pinia = createPinia()
 
 // Vuetify
@@ -16,4 +17,10 @@ const vuetify = createVuetify({
   directives,
 })
 
-createApp(App).use(router).use(pinia).use(vuetify).mount('#app')
+createApp(App)
+  .use(router)
+  .use(pinia)
+  .use(vuetify)
+  .use(axiosPlugin, { baseURL: "https://shop-trainy.doorly.ru/api" })
+  .mount('#app');
+

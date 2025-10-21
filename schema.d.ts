@@ -120,8 +120,8 @@ export interface paths {
             cookie?: never;
         };
         /**
-         * Список товаров с пагинацией
-         * @description Возвращает все товары и информацию о пагинации
+         * Список товаров с пагинацией и фильтрами
+         * @description Возвращает список товаров с поддержкой фильтров по размеру, цвету и цене, а также информацией о пагинации
          */
         get: operations["1bfaa78d1c2c3848ab8165c5dadcad3e"];
         put?: never;
@@ -373,6 +373,14 @@ export interface operations {
     "1bfaa78d1c2c3848ab8165c5dadcad3e": {
         parameters: {
             query?: {
+                /** @description Фильтр по размеру (ID размера) */
+                size_id?: number;
+                /** @description Фильтр по цвету (ID цвета) */
+                color_id?: number;
+                /** @description Минимальная цена (фильтр по нижней границе) */
+                price_min?: number;
+                /** @description Максимальная цена (фильтр по верхней границе) */
+                price_max?: number;
                 /** @description Номер страницы */
                 page?: number;
                 /** @description Количество товаров на странице */
@@ -396,7 +404,7 @@ export interface operations {
                         data?: {
                             /** @example 1 */
                             id?: number;
-                            /** @example Стильная Рубашка */
+                            /** @example Стильная рубашка */
                             name?: string;
                             /** @example https://source.unsplash.com/400x400/?clothes */
                             photo?: string;

@@ -1,11 +1,30 @@
 <template>
   <div>
     <h1>Каталог</h1>
+
+    Выберите размер:
     <v-select
         label="Select"
         :items="productsStore.sizes"
-        v-model="selectedItem"
+        v-model="productsStore.selectedItem"
         return-object
+        @update:modelValue="handleClick"
+    >
+      <template v-slot:selection="{ item }">
+        {{ item.raw.name }}
+      </template>
+      <template v-slot:item="{ item, props }">
+        <v-list-item v-bind="props" :title="item.raw.name"></v-list-item>
+      </template>
+    </v-select>
+
+    Выберите цвет:
+    <v-select
+        label="Select"
+        :items="productsStore.colors"
+        v-model="productsStore.selectedColorItem"
+        return-object
+        @update:modelValue="handleClick"
     >
       <template v-slot:selection="{ item }">
         {{ item.raw.name }}
@@ -40,15 +59,19 @@ async function changePage(nextPage: number) {
   await productsStore.fetchProducts(nextPage);
 }
 
-const selectedItem = ref(null);
+//const selectedItem = ref(null);
 
 onMounted(async () => {
   await Promise.all([
     productsStore.fetchProducts(),
-    productsStore.fetchSizes()
+    productsStore.fetchSizes(),
+    productsStore.fetchColors(),
   ]);
-  console.log('items', productsStore.items)
 })
+
+async function handleClick() {
+  await productsStore.fetchProducts(1)
+}
 </script>
 
 <style lang="scss" scoped>
