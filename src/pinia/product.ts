@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
 import type { paths } from "../../schema";
-// import axios from 'axios';
-//import type { AxiosResponse } from 'axios';
-import { inject } from 'vue';
+import axios from 'axios';
+//import { inject } from 'vue';
 import type { AxiosResponse, AxiosInstance } from 'axios';
+import { cloneDeep, isEqual } from 'lodash';
 
 type ISelectSizeItem = {
   id: number;
@@ -25,6 +25,7 @@ interface IProductState {
   selectedItem: ISelectSizeItem | null;
   colors: IProductColors["data"];
   selectedColorItem: ISelectColorItem | null;
+  range: number[];
 }
 
 type IProductItemResponse = paths["/api/products"]["get"]["responses"][200]["content"]["application/json"];
@@ -40,7 +41,9 @@ type IProductsItemRequest = paths["/api/products"]["get"]["parameters"]["query"]
 type IProductSizes = paths["/api/sizes"]["get"]["responses"][200]["content"]["application/json"];
 type IProductColors = paths["/api/colors"]["get"]["responses"][200]["content"]["application/json"];
 
-const axios = inject('axios') as AxiosInstance;
+//const axios = inject('axios') as AxiosInstance;
+
+export const rangeDefault = [1000, 100000];
 
 export const useProductStore = defineStore('product', {
   state: ():IProductState => {
@@ -58,6 +61,7 @@ export const useProductStore = defineStore('product', {
       selectedItem: null,
       colors: [],
       selectedColorItem: null,
+      range: cloneDeep(rangeDefault),
     }
   },
   actions: {
@@ -72,7 +76,11 @@ export const useProductStore = defineStore('product', {
         if (this.selectedColorItem) {
           params.color_id = this.selectedColorItem.id
         }
-        const responce: AxiosResponse<IProductItemResponse> = await axios.get('/products', { params: params });
+        if (!isEqual(this.range, rangeDefault)) {
+          params.price_min = this.range[0] * 100;
+          params.price_max = this.range[1] * 100;
+        }
+        const responce: AxiosResponse<IProductItemResponse> = await axios.get('https://shop-trainy.doorly.ru/api/products', { params: params });
         this.items = responce.data.data;
         const responceMeta = responce.data.meta;
         this.pagination = {
@@ -93,7 +101,7 @@ export const useProductStore = defineStore('product', {
 
     async fetchSizes(): Promise<void> {
       try {
-        const responce: AxiosResponse<IProductSizes> = await axios.get('/sizes')
+        const responce: AxiosResponse<IProductSizes> = await axios.get('https://shop-trainy.doorly.ru/api/sizes')
         this.sizes = responce.data.data;
       } catch (error) {
         console.error(error);
@@ -102,7 +110,7 @@ export const useProductStore = defineStore('product', {
 
     async fetchColors(): Promise<void> {
       try {
-        const responce: AxiosResponse<IProductColors> = await axios.get('/colors')
+        const responce: AxiosResponse<IProductColors> = await axios.get('https://shop-trainy.doorly.ru/api/colors')
         this.colors = responce.data.data;
       } catch (error) {
         console.error(error);
