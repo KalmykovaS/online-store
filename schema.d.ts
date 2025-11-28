@@ -121,9 +121,29 @@ export interface paths {
         };
         /**
          * Список товаров с пагинацией и фильтрами
-         * @description Возвращает список товаров с поддержкой фильтров по размеру, цвету и цене, а также информацией о пагинации
+         * @description Возвращает список товаров с поддержкой фильтров по размеру, цвету и цене, сортировкой и информацией о пагинации
          */
         get: operations["1bfaa78d1c2c3848ab8165c5dadcad3e"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/products/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Получить товар по ID
+         * @description Возвращает данные одного товара по его ID
+         */
+        get: operations["7ab21ddb713501f3d4c2914892c02a21"];
         put?: never;
         post?: never;
         delete?: never;
@@ -381,6 +401,8 @@ export interface operations {
                 price_min?: number;
                 /** @description Максимальная цена (фильтр по верхней границе) */
                 price_max?: number;
+                /** @description Сортировка товаров */
+                sort?: "price_asc" | "price_desc";
                 /** @description Номер страницы */
                 page?: number;
                 /** @description Количество товаров на странице */
@@ -427,6 +449,62 @@ export interface operations {
                             /** @example 150 */
                             total?: number;
                         };
+                    };
+                };
+            };
+        };
+    };
+    "7ab21ddb713501f3d4c2914892c02a21": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description ID товара */
+                id: number;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Успешный ответ */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example success */
+                        status?: string;
+                        data?: {
+                            /** @example 1 */
+                            id?: number;
+                            /** @example Стильная рубашка */
+                            name?: string;
+                            /** @example https://source.unsplash.com/400x400/?clothes */
+                            photo?: string;
+                            /** @example 2500 */
+                            price?: number;
+                            /** @example true */
+                            is_new?: boolean;
+                            /** @example 1 */
+                            size_id?: number;
+                            /** @example 1 */
+                            color_id?: number;
+                        };
+                    };
+                };
+            };
+            /** @description Товар не найден */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": {
+                        /** @example error */
+                        status?: string;
+                        /** @example Product not found */
+                        message?: string;
                     };
                 };
             };

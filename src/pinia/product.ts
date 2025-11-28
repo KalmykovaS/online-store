@@ -26,6 +26,7 @@ interface IProductState {
   colors: IProductColors["data"];
   selectedColorItem: ISelectColorItem | null;
   range: number[];
+  favorite: number[];
 }
 
 type IProductItemResponse = paths["/api/products"]["get"]["responses"][200]["content"]["application/json"];
@@ -62,6 +63,7 @@ export const useProductStore = defineStore('product', {
       colors: [],
       selectedColorItem: null,
       range: cloneDeep(rangeDefault),
+      favorite: [],
     }
   },
   actions: {

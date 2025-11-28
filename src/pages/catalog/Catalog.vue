@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>Каталог</h1>
+    {{ productsStore.favorite }}
 
     Выберите размер:
     <v-select
