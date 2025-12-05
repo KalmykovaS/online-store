@@ -1,0 +1,11 @@
+services:
+  vuejs-prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: docker-vuejs-sample
+    ports:
+      - "5173:5173"
+    command: bash -c "npm i && npm run dev"
+    volumes:
+      - ./:/app
