@@ -41,6 +41,7 @@
 <script lang="ts" setup>
 import { useProductStore } from '@/pinia/product.ts';
 import { ref } from 'vue';
+import { favoritesKey } from "@/pinia/product.ts";
 
 const productsStore = useProductStore();
 
@@ -63,6 +64,9 @@ function customFavorite(id: number) {
   } else {
     productsStore.favorite.push(id);
   }
+
+  let jsonString = JSON.stringify(productsStore.favorite);
+  localStorage.setItem(favoritesKey, jsonString);
 }
 
 </script>

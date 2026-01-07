@@ -18,8 +18,8 @@ const vuetify = createVuetify({
 })
 
 createApp(App)
-  .use(router)
   .use(pinia)
+  .use(router)
   .use(vuetify)
   .use(axiosPlugin, { baseURL: "https://shop-trainy.doorly.ru/api" })
   .mount('#app');

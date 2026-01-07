@@ -45,6 +45,7 @@ type IProductColors = paths["/api/colors"]["get"]["responses"][200]["content"]["
 //const axios = inject('axios') as AxiosInstance;
 
 export const rangeDefault = [1000, 100000];
+export const favoritesKey = 'favorites';
 
 export const useProductStore = defineStore('product', {
   state: ():IProductState => {
