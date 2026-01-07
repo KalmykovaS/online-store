@@ -70,13 +70,19 @@
       </template>
     </v-range-slider>
 
-    <div class="cards-wrapper">
-      <ProductCard
+    <v-row>
+      <v-col
           v-for="card in productsStore.items"
           :key="card.id"
-          :products="card"
-      />
-    </div>
+          cols="6"
+          md="4"
+          lg="3"
+      >
+        <ProductCard
+            :products="card"
+        />
+      </v-col>
+    </v-row>
     <ProductPagination
         :products-pagination="productsStore.pagination"
         @change-page="changePage"

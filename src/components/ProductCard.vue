@@ -1,25 +1,46 @@
 <template>
   <RouterLink :to="`/catalog/detail/${String(products.id)}`" class="product-card">
-    <img
-        :src="products.photo"
-        alt="product"
+    <v-card
+        class="mx-auto"
+        max-width="344"
     >
-    <div class="product-card__info">
-      <h2>{{ products.name }}</h2>
-      <p>{{ products.price }}</p>
-      <button
-          type="button"
-          :class="{ 'active' : productsStore.favorite.includes(products.id) }"
-          @click.prevent="customFavorite(products.id)"
-      >
-        Like
-      </button>
-    </div>
+      <v-img
+          height="200px"
+          :src="products.photo"
+          cover
+          position="top"
+      ></v-img>
+
+      <v-card-title>
+        {{ products.name }}
+      </v-card-title>
+
+      <v-card-subtitle>
+        {{ products.price }} ₽
+      </v-card-subtitle>
+
+      <v-card-actions>
+        <v-btn
+            color="orange-lighten-2"
+            text="Explore"
+        ></v-btn>
+
+        <v-btn
+            :class="{ 'active' : productsStore.favorite.includes(products.id) }"
+            @click.prevent="customFavorite(products.id)"
+        >
+          Like
+        </v-btn>
+
+      </v-card-actions>
+
+    </v-card>
   </RouterLink>
 </template>
 
 <script lang="ts" setup>
 import { useProductStore } from '@/pinia/product.ts';
+import { ref } from 'vue';
 
 const productsStore = useProductStore();
 
@@ -48,11 +69,11 @@ function customFavorite(id: number) {
 
 <style lang="scss" scoped>
 .product-card {
-  width: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 40px;
+  //width: 200px;
+  //display: flex;
+  //align-items: center;
+  //justify-content: center;
+  //gap: 40px;
 
   img {
     width: 100px;
